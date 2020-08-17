@@ -427,6 +427,7 @@ using the `evaluateScript(_:withSourceURL:)`
 to make it accessible for subsequent JS invocations.
 
 ```swift
+
 guard let url = Bundle.main.url(forResource: "mustache", withExtension: "js") else {
     fatalError("missing resource mustache.js")
 }
@@ -434,6 +435,21 @@ guard let url = Bundle.main.url(forResource: "mustache", withExtension: "js") el
 context.evaluateScript(try String(contentsOf: url),
                        withSourceURL: url)
 ```
+
+Load from local file.  
+```swift
+import Foundation
+
+guard let url = Bundle.main.path(forResource: "mustache", ofType: "js", inDirectory: "mathjs") else {
+    fatalError("missing resource mustache.js")
+}
+
+let contentData = FileManager.default.contents(atPath: path!)
+let content = NSString(data: contentData!, encoding: String.Encoding.utf8.rawValue) as String?
+context?.evaluateScript(content)
+
+```
+
 
 {% info %}
 Use the `evaluateScript(_:withSourceURL:)` method
